@@ -28,7 +28,8 @@
     @for (int i = start; i < curpage+3; i++)
     {
     <li>
-        <a href="#">第 @i 页</a>
+       @* <a href="/Home/List?page=@i">第 @i 页</a>*@
+        @Html.ActionLink(string.Format("第{0}页", i),"list", "Home", new { page=i },null)
     </li>
     }
 </ol>
