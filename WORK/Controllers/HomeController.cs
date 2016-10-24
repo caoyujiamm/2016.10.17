@@ -36,10 +36,13 @@ namespace WORK.Controllers
         /// 新闻列表
         /// </summary>
         /// <returns></returns>
-        public ActionResult list()
+        public ActionResult list(int page =10)
         {
             string[] data = new string[] { "台风“莎莉嘉”逼近广西 景区关闭学校停课" , "台风“莎莉嘉”裹挟强降雨影响海南广东广西", "受台风“彩虹”影响 广西5日风雨最强" };
-            ViewData.Model= data;
+            ViewBag.data = data;
+            ViewBag.page = page;
+            
+            // ViewData.Model= data;
 
             return View();
         }
