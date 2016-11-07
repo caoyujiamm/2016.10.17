@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace WORK.Controllers
+namespace News.Controllers
 {
     public class BlogController : Controller
     {
@@ -16,13 +16,15 @@ namespace WORK.Controllers
             db.Database.CreateIfNotExists();
 
             var lst = db.BlogArticles.AsQueryable();
+
             if (!string.IsNullOrWhiteSpace(q))
             {
                 lst = lst.Where(o => o.Subject.Contains(q));
             }
 
-           
+
             ViewBag.BlogArticles = lst.OrderByDescending(o => o.Id).ToList();
+            ViewBag.q = q;
 
             return View();
         }
@@ -33,16 +35,21 @@ namespace WORK.Controllers
             return View();
         }
 
-        public ActionResult ArticleSave(string subject, string body)
+        //public ActionResult ArticleSave(string subject, string body)
+        public ActionResult ArticleSave(BlogArticle model)
         {
-            var article = new BlogArticle();
-            article.Subject = subject;
-            article.Body = body;
-            article.DateCreated = DateTime.Now;
+            if (ModelState.IsValid)
+            {
+                var article = new BlogArticle();
+                article.Subject = model.Subject;
+                article.Body = model.Body;
+                article.DateCreated = DateTime.Now;
 
-            var db = new BlogDatabase();
-            db.BlogArticles.Add(article);
-            db.SaveChanges();
+                var db = new BlogDatabase();
+                db.BlogArticles.Add(article);
+                db.SaveChanges();
+            }
+
 
             return Redirect("Index");
         }
